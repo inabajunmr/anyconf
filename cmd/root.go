@@ -2,13 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
 
+	"github.com/inabajunmr/anyconf/config"
 	_ "github.com/inabajunmr/anyconf/statik"
+	"github.com/inabajunmr/anyconf/vim"
 
-	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cobra"
 )
 
@@ -18,23 +17,21 @@ var (
 		Short: "anyconf open any config file of any tools.",
 		Long:  `anyconf open any config file of any tools.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			statikFS, err := fs.New()
-			if err != nil {
-				log.Fatal(err)
+			c, _ := config.ReadConfig()
+			for _, v := range args {
+				n, err := c.Read(v)
+				if err != nil {
+					fmt.Println("No config matched.")
+					os.Exit(1)
+				}
+				c = n
 			}
 
-			r, err := statikFS.Open("/configs.txt")
-			if err != nil {
-				log.Fatal(err)
+			if c.TargetConfigPath != "" {
+				vim.LaunchVim(c.TargetConfigPath)
+			} else {
+				// TODO search more
 			}
-			defer r.Close()
-			contents, err := ioutil.ReadAll(r)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			fmt.Println(string(contents))
-			os.Exit(1)
 		},
 	}
 )
