@@ -3,6 +3,7 @@ package config
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -21,26 +22,30 @@ type AnyConfConfigs struct {
 }
 
 func ReadConfig() (*AnyConfConfigs, error) {
-	r := AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
+	r := &AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
 	staticConf := readStaticConfig()
 	r, _ = readConfig(staticConf, r)
 	localConf, err := readLocalConfig()
 	if err != nil {
-		return &r, nil
+		fmt.Println(err)
+		return r, nil
 	}
 	r, _ = readConfig(localConf, r)
 
-	return &r, nil
+	return r, nil
 }
 
-func readConfig(rawConf string, conf AnyConfConfigs) (AnyConfConfigs, error) {
+func readConfig(rawConf string, conf *AnyConfConfigs) (*AnyConfConfigs, error) {
 	scanner := bufio.NewScanner(strings.NewReader(rawConf))
 
 	for scanner.Scan() {
 		line := scanner.Text()
+		if len(line) == 0 {
+			continue
+		}
 		sline := strings.Split(line, " ")
 		if len(sline) != 2 {
-			return AnyConfConfigs{}, errors.New("static/configs.text is something wrong.")
+			return &AnyConfConfigs{}, errors.New("static/configs.txt is something wrong.")
 		}
 		key := sline[0]
 		configPath := sline[1]
@@ -58,14 +63,13 @@ func readConfig(rawConf string, conf AnyConfConfigs) (AnyConfConfigs, error) {
 
 			tc = tc[v].children
 		}
-
 	}
 
 	return conf, nil
 }
 
 func readLocalConfig() (string, error) {
-	conf, err := os.UserConfigDir()
+	conf, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal(err)
 	}

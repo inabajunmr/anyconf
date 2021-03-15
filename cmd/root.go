@@ -22,7 +22,7 @@ var (
 			for _, v := range args {
 				n, err := c.Read(v)
 				if err != nil {
-					fmt.Println("No config matched.")
+					fmt.Println("No config matched.1")
 					os.Exit(1)
 				}
 				c = n
@@ -50,7 +50,7 @@ var (
 					fmt.Println(answers.Key)
 					n, err := c.Read(answers.Key)
 					if err != nil {
-						fmt.Println("No config matched.")
+						fmt.Println("No config matched.2")
 						os.Exit(1)
 					}
 					c = n
