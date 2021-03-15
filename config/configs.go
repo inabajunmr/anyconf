@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 
 	_ "github.com/inabajunmr/anyconf/statik"
@@ -20,21 +22,32 @@ type AnyConfConfigs struct {
 
 func ReadConfig() (*AnyConfConfigs, error) {
 	r := AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
-	confStr := readStaticConfig()
-	scanner := bufio.NewScanner(strings.NewReader(confStr))
+	staticConf := readStaticConfig()
+	r, _ = readConfig(staticConf, r)
+	localConf, err := readLocalConfig()
+	if err != nil {
+		return &r, nil
+	}
+	r, _ = readConfig(localConf, r)
+
+	return &r, nil
+}
+
+func readConfig(rawConf string, conf AnyConfConfigs) (AnyConfConfigs, error) {
+	scanner := bufio.NewScanner(strings.NewReader(rawConf))
 
 	for scanner.Scan() {
 		line := scanner.Text()
 		sline := strings.Split(line, " ")
 		if len(sline) != 2 {
-			return nil, errors.New("static/configs.text is something wrong.")
+			return AnyConfConfigs{}, errors.New("static/configs.text is something wrong.")
 		}
 		key := sline[0]
 		configPath := sline[1]
 
 		skey := strings.Split(key, "/")
 
-		tc := r.children
+		tc := conf.children
 		for i, v := range skey {
 			if tc[v] == nil {
 				tc[v] = &AnyConfConfigs{children: map[string]*AnyConfConfigs{}, NodeName: v}
@@ -48,7 +61,22 @@ func ReadConfig() (*AnyConfConfigs, error) {
 
 	}
 
-	return &r, nil
+	return conf, nil
+}
+
+func readLocalConfig() (string, error) {
+	conf, err := os.UserConfigDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	path := filepath.Join(conf, ".anyconf", "configs.txt")
+	bytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
+
 }
 
 func readStaticConfig() string {
