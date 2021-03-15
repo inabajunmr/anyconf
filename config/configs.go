@@ -20,7 +20,7 @@ type AnyConfConfigs struct {
 
 func ReadConfig() (*AnyConfConfigs, error) {
 	r := AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
-	confStr := readConfigFile()
+	confStr := readStaticConfig()
 	scanner := bufio.NewScanner(strings.NewReader(confStr))
 
 	for scanner.Scan() {
@@ -51,7 +51,7 @@ func ReadConfig() (*AnyConfConfigs, error) {
 	return &r, nil
 }
 
-func readConfigFile() string {
+func readStaticConfig() string {
 	statikFS, err := fs.New()
 	if err != nil {
 		log.Fatal(err)
