@@ -79,3 +79,11 @@ func (c AnyConfConfigs) Read(key string) (*AnyConfConfigs, error) {
 
 	return c.children[key], nil
 }
+
+func (c AnyConfConfigs) NextKeys() []string {
+	var keys []string
+	for k, _ := range c.children {
+		keys = append(keys, k)
+	}
+	return keys
+}
