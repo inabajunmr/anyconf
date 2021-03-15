@@ -3,8 +3,11 @@ package config
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 
 	_ "github.com/inabajunmr/anyconf/statik"
@@ -19,22 +22,37 @@ type AnyConfConfigs struct {
 }
 
 func ReadConfig() (*AnyConfConfigs, error) {
-	r := AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
-	confStr := readConfigFile()
-	scanner := bufio.NewScanner(strings.NewReader(confStr))
+	r := &AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
+	staticConf := readStaticConfig()
+	r, _ = readConfig(staticConf, r)
+	localConf, err := readLocalConfig()
+	if err != nil {
+		fmt.Println(err)
+		return r, nil
+	}
+	r, _ = readConfig(localConf, r)
+
+	return r, nil
+}
+
+func readConfig(rawConf string, conf *AnyConfConfigs) (*AnyConfConfigs, error) {
+	scanner := bufio.NewScanner(strings.NewReader(rawConf))
 
 	for scanner.Scan() {
 		line := scanner.Text()
+		if len(line) == 0 {
+			continue
+		}
 		sline := strings.Split(line, " ")
 		if len(sline) != 2 {
-			return nil, errors.New("static/configs.text is something wrong.")
+			return &AnyConfConfigs{}, errors.New("static/configs.txt is something wrong.")
 		}
 		key := sline[0]
 		configPath := sline[1]
 
 		skey := strings.Split(key, "/")
 
-		tc := r.children
+		tc := conf.children
 		for i, v := range skey {
 			if tc[v] == nil {
 				tc[v] = &AnyConfConfigs{children: map[string]*AnyConfConfigs{}, NodeName: v}
@@ -45,13 +63,27 @@ func ReadConfig() (*AnyConfConfigs, error) {
 
 			tc = tc[v].children
 		}
-
 	}
 
-	return &r, nil
+	return conf, nil
 }
 
-func readConfigFile() string {
+func readLocalConfig() (string, error) {
+	conf, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	path := filepath.Join(conf, ".anyconf", "configs.txt")
+	bytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
+
+}
+
+func readStaticConfig() string {
 	statikFS, err := fs.New()
 	if err != nil {
 		log.Fatal(err)
