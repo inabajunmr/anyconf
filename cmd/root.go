@@ -7,6 +7,7 @@ import (
 	"github.com/inabajunmr/anyconf/config"
 	_ "github.com/inabajunmr/anyconf/statik"
 	"github.com/inabajunmr/anyconf/vim"
+	"gopkg.in/AlecAivazis/survey.v1"
 
 	"github.com/spf13/cobra"
 )
@@ -27,10 +28,33 @@ var (
 				c = n
 			}
 
-			if c.TargetConfigPath != "" {
-				vim.LaunchVim(c.TargetConfigPath)
-			} else {
-				// TODO search more
+			for {
+				if c.TargetConfigPath != "" {
+					vim.LaunchVim(c.TargetConfigPath)
+					os.Exit(0)
+				} else {
+
+					answers := struct {
+						Key string
+					}{}
+					qs := []*survey.Question{
+						{
+							Name: "Key",
+							Prompt: &survey.Select{
+								Message: "What's next key?",
+								Options: c.NextKeys(),
+							},
+						},
+					}
+					survey.Ask(qs, &answers)
+					fmt.Println(answers.Key)
+					n, err := c.Read(answers.Key)
+					if err != nil {
+						fmt.Println("No config matched.")
+						os.Exit(1)
+					}
+					c = n
+				}
 			}
 		},
 	}
