@@ -1,5 +1,23 @@
 # anyconf
 
+anyconf is local configuration file finder.
+## Install
+
+```
+go get github.com/inabajunmr/anyconf
+```
+## Usage
+
+When you want to edit config file about AWS.
+
+```
+anyconf aws
+```
+
+### Example
+
+![](./doc/anyconf.gif)
+
 ## Development
 
 ### Prerequisite
@@ -10,4 +28,16 @@ anyconf use [statik](https://github.com/rakyll/statik) for build process.
 After editing static/configs.txt, following command is needed.
 ```
 $ statik -src static
+```
+
+## Contribution
+
+Please add new config to [static/configs.txt](static/configs.txt).
+When you want to add `~/.aws/config`, you can add line like following example.
+
+```diff
+aws/credentials ~/.aws/credentials
++ aws/config ~/.aws/config
+fish ~/.config/fish/config.fish
+git/config ~/.gitconfig
 ```
