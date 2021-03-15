@@ -18,6 +18,20 @@ anyconf aws
 
 ![](./doc/anyconf.gif)
 
+### Local extension
+
+When you want to add config path to only your local environment, you can use local config file.
+
+```
+vim ~/.anyconf/configs.txt
+```
+
+When you add line to `~/.anyconf/configs.txt` like following example, you can find yourtool on anyconf.
+
+```
+yourtool ~/yourtool/config
+```
+
 ## Development
 
 ### Prerequisite
