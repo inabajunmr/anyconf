@@ -9,8 +9,11 @@ git/gitconfig ~/.gitconfig
 git/gitignore_current .gitignore
 git/gitignore_global ~/.gitignore_global
 git/gitmodules ~/.gitmodules
+npm ~/.npmrc
 screen ~/.screenrc
+ssh ~/.ssh/config
 tmux ~/.tmux.conf
 vim ~/.vimrc
+vue ~/.vuerc
 wget ~/.wgetrc
 zsh ~/.zshrc
