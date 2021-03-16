@@ -119,3 +119,8 @@ func (c AnyConfConfigs) NextKeys() []string {
 	}
 	return keys
 }
+
+func GetPath(configPath string) string {
+	h, _ := os.UserHomeDir()
+	return strings.Replace(configPath, "~", h, 1)
+}
