@@ -6,6 +6,7 @@ bash/bashrc ~/.bashrc
 curl ~/.curlrc
 fish ~/.config/fish/config.fish
 git/gitconfig ~/.gitconfig
+git/gitignore_current .gitignore
 git/gitignore_global ~/.gitignore_global
 git/gitmodules ~/.gitmodules
 screen ~/.screenrc
