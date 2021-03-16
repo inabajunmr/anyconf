@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/inabajunmr/anyconf/config"
 	_ "github.com/inabajunmr/anyconf/statik"
@@ -30,7 +31,27 @@ var (
 
 			for {
 				if c.TargetConfigPath != "" {
-					vim.LaunchVim(c.TargetConfigPath)
+					path := config.GetPath(c.TargetConfigPath)
+					if _, err := os.Stat(path); os.IsNotExist(err) {
+						// if there no file, show prompt
+						create := false
+						prompt := &survey.Confirm{
+							Message: fmt.Sprintf("Create %v?", c.TargetConfigPath),
+						}
+						survey.AskOne(prompt, &create, nil)
+						if !create {
+							os.Exit(0)
+						}
+
+						// create new file
+						os.MkdirAll(filepath.Dir(path), 0755)
+						_, err := os.Create(path)
+						if err != nil {
+							fmt.Println("Failed to create new file.")
+							os.Exit(1)
+						}
+					}
+					vim.LaunchVim(path)
 					os.Exit(0)
 				} else {
 
