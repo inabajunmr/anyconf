@@ -1,4 +1,15 @@
-aws/credentials ~/.aws/credentials
+anyconf ~/.anyconf/configs.txt
 aws/config ~/.aws/config
+aws/credentials ~/.aws/credentials
+bash/bash_profile ~/.bash_profile
+bash/bashrc ~/.bashrc
+curl ~/.curlrc
 fish ~/.config/fish/config.fish
-git/config ~/.gitconfig
+git/gitconfig ~/.gitconfig
+git/gitignore_global ~/.gitignore_global
+git/gitmodules ~/.gitmodules
+screen ~/.screenrc
+tmux ~/.tmux.conf
+vim ~/.vimrc
+wget ~/.wgetrc
+zsh ~/.zshrc
