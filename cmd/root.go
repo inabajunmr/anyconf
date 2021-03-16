@@ -23,8 +23,8 @@ var (
 			for _, v := range args {
 				n, err := c.Read(v)
 				if err != nil {
-					fmt.Println("No config matched.")
-					os.Exit(1)
+					fmt.Println(contributionAdd(v))
+					os.Exit(0)
 				}
 				c = n
 			}
@@ -71,8 +71,8 @@ var (
 					fmt.Println(answers.Key)
 					n, err := c.Read(answers.Key)
 					if err != nil {
-						fmt.Println("No config matched.")
-						os.Exit(1)
+						fmt.Println(contributionAdd(answers.Key))
+						os.Exit(0)
 					}
 					c = n
 				}
@@ -80,6 +80,10 @@ var (
 		},
 	}
 )
+
+func contributionAdd(val string) string {
+	return fmt.Sprintf("anyconf doesn't support %v yet. \nYou can add %v to https://github.com/inabajunmr.", val, val)
+}
 
 // Execute is just root command
 func Execute() {
