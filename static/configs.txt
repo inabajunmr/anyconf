@@ -16,4 +16,5 @@ tmux ~/.tmux.conf
 vim ~/.vimrc
 vue ~/.vuerc
 wget ~/.wgetrc
-zsh ~/.zshrc
+zsh/zshrc ~/.zshrc
+zsh/zshenv ~/.zshenv
