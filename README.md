@@ -41,7 +41,7 @@ anyconf use [statik](https://github.com/rakyll/statik) for build process.
 
 After editing static/configs.txt, following command is needed.
 ```
-$ statik -src static
+statik -src static
 ```
 
 ## Contribution
