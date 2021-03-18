@@ -68,3 +68,11 @@ aws/credentials ~/.aws/credentials
 fish ~/.config/fish/config.fish
 git/config ~/.gitconfig
 ```
+
+## Licence
+
+[MIT](https://github.com/inabajunmr/anyconf/blob/main/LICENSE)
+
+## Author
+
+[inabajunmr](https://github.com/inabajunmr)
