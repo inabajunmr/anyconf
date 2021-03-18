@@ -32,6 +32,19 @@ When you add line to `~/.anyconf/configs.txt` like following example, you can fi
 yourtool ~/yourtool/config
 ```
 
+You can find and edit it via anyconf.
+
+### Editor Configuration
+
+Default editor is vim.
+If you want to use vscode and you can launch it by `code` command, you can configure it on `~/.anyconf/configs.yml` like following example.
+
+```
+editor: code
+```
+
+You can find and edit it via anyconf too.
+
 ## Development
 
 ### Prerequisite

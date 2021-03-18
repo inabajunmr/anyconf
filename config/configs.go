@@ -21,7 +21,7 @@ type AnyConfConfigs struct {
 	children         map[string]*AnyConfConfigs
 }
 
-func ReadConfig() (*AnyConfConfigs, error) {
+func ReadConfigs() (*AnyConfConfigs, error) {
 	r := &AnyConfConfigs{children: map[string]*AnyConfConfigs{}}
 	staticConf := readStaticConfig()
 	r, _ = readConfig(staticConf, r)

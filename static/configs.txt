@@ -1,4 +1,5 @@
-anyconf ~/.anyconf/configs.txt
+anyconf/configs.txt ~/.anyconf/configs.txt
+anyconf/config.yaml ~/.anyconf/config.yml
 aws/config ~/.aws/config
 aws/credentials ~/.aws/credentials
 bash/bash_profile ~/.bash_profile
