@@ -10,6 +10,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/rakyll/statik v0.1.7
 	github.com/spf13/cobra v1.1.3
+	github.com/spf13/viper v1.7.0
 	golang.org/x/crypto v0.0.0-20210314154223-e6e6c4f2bb5b // indirect
 	golang.org/x/sys v0.0.0-20210314195730-07df6a141424 // indirect
 	golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d // indirect

@@ -2,15 +2,17 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/inabajunmr/anyconf/config"
+	"github.com/inabajunmr/anyconf/editor"
 	_ "github.com/inabajunmr/anyconf/statik"
-	"github.com/inabajunmr/anyconf/vim"
 	"gopkg.in/AlecAivazis/survey.v1"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -19,7 +21,10 @@ var (
 		Short: "anyconf open any config file of any tools.",
 		Long:  `anyconf open any config file of any tools.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			c, _ := config.ReadConfig()
+			c, _ := config.ReadConfigs()
+			viper.ReadInConfig()
+			e := viper.GetString("editor")
+
 			for _, v := range args {
 				n, err := c.Read(v)
 				if err != nil {
@@ -51,7 +56,7 @@ var (
 							os.Exit(1)
 						}
 					}
-					vim.LaunchVim(path)
+					editor.LaunchEditor(path, e)
 					os.Exit(0)
 				} else {
 
@@ -80,6 +85,17 @@ var (
 		},
 	}
 )
+
+func init() {
+	conf, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+	path := filepath.Join(conf, ".anyconf", "config.yml")
+	viper.SetConfigFile(path)
+	viper.SetDefault("editor", "vim")
+
+}
 
 func contributionAd(val string) string {
 	return fmt.Sprintf("anyconf doesn't support %v yet. \nYou can support %v at https://github.com/inabajunmr.", val, val)
