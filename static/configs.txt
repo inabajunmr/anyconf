@@ -19,3 +19,4 @@ vue ~/.vuerc
 wget ~/.wgetrc
 zsh/zshrc ~/.zshrc
 zsh/zshenv ~/.zshenv
+prezto ~/.zpreztorc
