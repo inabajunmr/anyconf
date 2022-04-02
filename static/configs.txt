@@ -20,3 +20,4 @@ wget ~/.wgetrc
 zsh/zshrc ~/.zshrc
 zsh/zshenv ~/.zshenv
 prezto ~/.zpreztorc
+perl/module-starter ~/.module-starter/config
