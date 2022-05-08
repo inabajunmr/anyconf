@@ -4,8 +4,9 @@ anyconf is local configuration file finder.
 ## Install
 
 ```
-go get github.com/inabajunmr/anyconf
+go install github.com/inabajunmr/anyconf@latest
 ```
+
 ## Usage
 
 When you want to edit config file about AWS.
