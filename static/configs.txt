@@ -20,4 +20,5 @@ wget ~/.wgetrc
 zsh/zshrc ~/.zshrc
 zsh/zshenv ~/.zshenv
 prezto ~/.zpreztorc
+wezterm ~/.config/wezterm/wezterm.lua
 perl/module-starter ~/.module-starter/config
