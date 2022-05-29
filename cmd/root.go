@@ -37,6 +37,7 @@ var (
 			for {
 				if c.TargetConfigPath != "" {
 					path := config.GetPath(c.TargetConfigPath)
+					fmt.Println(path)
 					if _, err := os.Stat(path); os.IsNotExist(err) {
 						// if there no file, show prompt
 						create := false
