@@ -3,8 +3,7 @@ package config
 import (
 	"bufio"
 	"errors"
-	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -26,8 +25,7 @@ func ReadConfigs() (*AnyConfConfigs, error) {
 	staticConf := readStaticConfig()
 	r, _ = readConfig(staticConf, r)
 	localConf, err := readLocalConfig()
-	if err != nil {
-		fmt.Println(err)
+	if err != nil && err != io.EOF {
 		return r, nil
 	}
 	r, _ = readConfig(localConf, r)
@@ -45,7 +43,7 @@ func readConfig(rawConf string, conf *AnyConfConfigs) (*AnyConfConfigs, error) {
 		}
 		sline := strings.Split(line, " ")
 		if len(sline) != 2 {
-			return &AnyConfConfigs{}, errors.New("static/configs.txt is something wrong.")
+			return &AnyConfConfigs{}, errors.New("static/configs.txt is something wrong")
 		}
 		key := sline[0]
 		configPath := sline[1]
@@ -74,7 +72,7 @@ func readLocalConfig() (string, error) {
 		log.Fatal(err)
 	}
 	path := filepath.Join(conf, ".anyconf", "configs.txt")
-	bytes, err := ioutil.ReadFile(path)
+	bytes, err := os.ReadFile(path)
 	if err != nil {
 		return "", err
 	}
@@ -94,7 +92,7 @@ func readStaticConfig() string {
 		log.Fatal(err)
 	}
 	defer r.Close()
-	contents, err := ioutil.ReadAll(r)
+	contents, err := io.ReadAll(r)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -106,7 +104,7 @@ func readStaticConfig() string {
 func (c AnyConfConfigs) Read(key string) (*AnyConfConfigs, error) {
 	// TODO partial match?
 	if c.children[key] == nil {
-		return nil, errors.New("No config is matched.")
+		return nil, errors.New("no config is matched")
 	}
 
 	return c.children[key], nil
