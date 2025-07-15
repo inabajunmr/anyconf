@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	_ "github.com/inabajunmr/anyconf/statik"
@@ -115,30 +116,64 @@ type DisplayOption struct {
 	Key     string
 }
 
+type sortableOption struct {
+	display    string
+	key        string
+	exists     bool
+	isCategory bool
+}
+
 func (c AnyConfConfigs) NextKeysWithDisplay() ([]string, map[string]string) {
-	var displays []string
+	var options []sortableOption
 	displayToKey := make(map[string]string)
 	
 	for k, v := range c.children {
 		var display string
+		var exists bool
+		var isCategory bool
+		
 		// Check if the config file exists and add emoji prefix
 		if v.TargetConfigPath != "" {
 			path := GetPath(v.TargetConfigPath)
 			if _, err := os.Stat(path); err == nil {
 				// File exists
 				display = "✅ " + k + " (" + v.TargetConfigPath + ")"
+				exists = true
 			} else {
 				// File doesn't exist
 				display = "❌ " + k + " (" + v.TargetConfigPath + ")"
+				exists = false
 			}
+			isCategory = false
 		} else {
 			// Directory/category (no target config path)
 			display = "📁 " + k
+			exists = true // Categories appear at top like existing files
+			isCategory = true
 		}
 		
-		displays = append(displays, display)
-		displayToKey[display] = k
+		options = append(options, sortableOption{
+			display:    display,
+			key:        k,
+			exists:     exists,
+			isCategory: isCategory,
+		})
 	}
+	
+	// Sort by existence first (existing files and categories first), then alphabetically by key
+	sort.Slice(options, func(i, j int) bool {
+		if options[i].exists != options[j].exists {
+			return options[i].exists // true comes before false
+		}
+		return options[i].key < options[j].key
+	})
+	
+	var displays []string
+	for _, option := range options {
+		displays = append(displays, option.display)
+		displayToKey[option.display] = option.key
+	}
+	
 	return displays, displayToKey
 }
 
