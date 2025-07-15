@@ -23,3 +23,8 @@ prezto ~/.zpreztorc
 wezterm ~/.config/wezterm/wezterm.lua
 perl/module-starter ~/.module-starter/config
 host /etc/hosts
+claude/settings ~/.claude/settings.json
+claude/memory ~/.claude/CLAUDE.md
+claude/project_memory ./CLAUDE.md
+claude/project_settings .claude/settings.json
+claude/project_local .claude/settings.local.json
