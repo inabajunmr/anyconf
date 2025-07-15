@@ -110,6 +110,38 @@ func (c AnyConfConfigs) Read(key string) (*AnyConfConfigs, error) {
 	return c.children[key], nil
 }
 
+type DisplayOption struct {
+	Display string
+	Key     string
+}
+
+func (c AnyConfConfigs) NextKeysWithDisplay() ([]string, map[string]string) {
+	var displays []string
+	displayToKey := make(map[string]string)
+	
+	for k, v := range c.children {
+		var display string
+		// Check if the config file exists and add emoji prefix
+		if v.TargetConfigPath != "" {
+			path := GetPath(v.TargetConfigPath)
+			if _, err := os.Stat(path); err == nil {
+				// File exists
+				display = "✅ " + k + " (" + v.TargetConfigPath + ")"
+			} else {
+				// File doesn't exist
+				display = "❌ " + k + " (" + v.TargetConfigPath + ")"
+			}
+		} else {
+			// Directory/category (no target config path)
+			display = "📁 " + k
+		}
+		
+		displays = append(displays, display)
+		displayToKey[display] = k
+	}
+	return displays, displayToKey
+}
+
 func (c AnyConfConfigs) NextKeys() []string {
 	var keys []string
 	for k, _ := range c.children {

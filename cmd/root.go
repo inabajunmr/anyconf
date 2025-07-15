@@ -64,20 +64,24 @@ var (
 					answers := struct {
 						Key string
 					}{}
+					
+					displays, displayToKey := c.NextKeysWithDisplay()
 					qs := []*survey.Question{
 						{
 							Name: "Key",
 							Prompt: &survey.Select{
 								Message: "What's next key?",
-								Options: c.NextKeys(),
+								Options: displays,
 							},
 						},
 					}
 					survey.Ask(qs, &answers)
-					fmt.Println(answers.Key)
-					n, err := c.Read(answers.Key)
+					
+					actualKey := displayToKey[answers.Key]
+					fmt.Println(actualKey)
+					n, err := c.Read(actualKey)
 					if err != nil {
-						fmt.Println(contributionAd(answers.Key))
+						fmt.Println(contributionAd(actualKey))
 						os.Exit(0)
 					}
 					c = n
