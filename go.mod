@@ -1,25 +1,37 @@
 module github.com/inabajunmr/anyconf
 
-go 1.13
+go 1.19
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.2.9 // indirect
-	github.com/cheggaaa/pb v2.0.7+incompatible // indirect
-	github.com/google/go-github/v33 v33.0.0 // indirect
-	github.com/mattn/go-colorable v0.1.8 // indirect
-	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/rakyll/statik v0.1.7
-	github.com/spf13/cobra v1.1.3
-	github.com/spf13/viper v1.7.0
-	golang.org/x/crypto v0.0.0-20210314154223-e6e6c4f2bb5b // indirect
-	golang.org/x/sys v0.0.0-20210314195730-07df6a141424 // indirect
-	golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d // indirect
-	golang.org/x/text v0.3.5 // indirect
+	github.com/spf13/cobra v1.8.1
+	github.com/spf13/viper v1.17.0
 	gopkg.in/AlecAivazis/survey.v1 v1.8.8
-	gopkg.in/VividCortex/ewma.v1 v1.1.1 // indirect
-	gopkg.in/cheggaaa/pb.v2 v2.0.7 // indirect
-	gopkg.in/fatih/color.v1 v1.7.0 // indirect
-	gopkg.in/mattn/go-colorable.v0 v0.1.0 // indirect
-	gopkg.in/mattn/go-isatty.v0 v0.0.4 // indirect
-	gopkg.in/mattn/go-runewidth.v0 v0.0.4 // indirect
+)
+
+require (
+	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
+	github.com/magiconair/properties v1.8.7 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
+	github.com/sagikazarmark/locafero v0.3.0 // indirect
+	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
+	github.com/sourcegraph/conc v0.3.0 // indirect
+	github.com/spf13/afero v1.10.0 // indirect
+	github.com/spf13/cast v1.5.1 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/subosito/gotenv v1.6.0 // indirect
+	go.uber.org/atomic v1.9.0 // indirect
+	go.uber.org/multierr v1.9.0 // indirect
+	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
+	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
+	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
