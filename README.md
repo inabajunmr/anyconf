@@ -4,6 +4,14 @@ anyconf is a local configuration file finder.
 
 ## Install
 
+### Homebrew
+
+```
+brew install inabajunmr/anyconf/anyconf
+```
+
+### Go
+
 ```
 go install github.com/inabajunmr/anyconf@latest
 ```
